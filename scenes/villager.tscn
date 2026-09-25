@@ -1,14 +1,12 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/villager.gd" id="1_villager"]
-
-[sub_resource type="StandardMaterial3D" id="BodyMat"]
-albedo_color = Color(0.3, 0.45, 0.8, 1)
-
-[sub_resource type="CapsuleMesh" id="BodyMesh"]
-material = SubResource("BodyMat")
-radius = 0.3
-height = 1.2
+[ext_resource type="PackedScene" path="res://assets/models/kenney_mini-characters/character-male-a.glb" id="m0"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney_mini-characters/character-male-b.glb" id="m1"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney_mini-characters/character-male-c.glb" id="m2"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney_mini-characters/character-female-a.glb" id="m3"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney_mini-characters/character-female-b.glb" id="m4"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney_mini-characters/character-female-c.glb" id="m5"]
 
 [sub_resource type="StandardMaterial3D" id="LoadMat"]
 albedo_color = Color(0.45, 0.3, 0.18, 1)
@@ -24,10 +22,12 @@ height = 1.2
 [node name="Villager" type="CharacterBody3D" groups=["villagers"]]
 collision_layer = 2
 script = ExtResource("1_villager")
+models = Array[PackedScene]([ExtResource("m0"), ExtResource("m1"), ExtResource("m2"), ExtResource("m3"), ExtResource("m4"), ExtResource("m5")])
 
-[node name="Body" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
-mesh = SubResource("BodyMesh")
+[node name="Body" type="Node3D" parent="."]
+transform = Transform3D(-1.8, 0, 0, 0, 1.8, 0, 0, 0, -1.8, 0, 0, 0)
+
+[node name="Model" parent="Body" instance=ExtResource("m0")]
 
 [node name="Load" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, -0.35)

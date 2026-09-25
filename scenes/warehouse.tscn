@@ -1,37 +1,35 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/structure.gd" id="1_structure"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney_fantasy-town-kit/wall-wood-doorway-square-wide.glb" id="m0"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney_fantasy-town-kit/wall-wood.glb" id="m1"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney_fantasy-town-kit/roof-gable.glb" id="m2"]
 
-[sub_resource type="StandardMaterial3D" id="WarehouseMat"]
-albedo_color = Color(0.72, 0.52, 0.3, 1)
-
-[sub_resource type="BoxMesh" id="WarehouseMesh"]
-material = SubResource("WarehouseMat")
-size = Vector3(1.8, 1.4, 1.8)
-
-[sub_resource type="StandardMaterial3D" id="RoofMat"]
-albedo_color = Color(0.55, 0.25, 0.2, 1)
-
-[sub_resource type="PrismMesh" id="RoofMesh"]
-material = SubResource("RoofMat")
-size = Vector3(2, 0.8, 2)
-
-[sub_resource type="BoxShape3D" id="WarehouseShape"]
+[sub_resource type="BoxShape3D" id="Shape"]
 size = Vector3(1.8, 2.2, 1.8)
 
 [node name="Warehouse" type="StaticBody3D" groups=["obstacles", "storage", "shelter"]]
 script = ExtResource("1_structure")
 max_health = 200
-label_height = 3.0
+label_height = 3.2
 
-[node name="Mesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
-mesh = SubResource("WarehouseMesh")
+[node name="Model" type="Node3D" parent="."]
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 0, 0, 0)
 
-[node name="Roof" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
-mesh = SubResource("RoofMesh")
+[node name="WallDoor" parent="Model" instance=ExtResource("m0")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 0)
+
+[node name="WallE" parent="Model" instance=ExtResource("m1")]
+
+[node name="WallW" parent="Model" instance=ExtResource("m1")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0)
+
+[node name="WallBack" parent="Model" instance=ExtResource("m1")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, 0, 0)
+
+[node name="Roof" parent="Model" instance=ExtResource("m2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="Collision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
-shape = SubResource("WarehouseShape")
+shape = SubResource("Shape")

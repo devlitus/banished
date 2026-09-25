@@ -4,8 +4,19 @@ extends StaticBody3D
 
 @export var wood := 30
 @export var radius := 0.3 ## tamaño en el suelo (el del tronco)
+@export var models: Array[PackedScene] = [] ## cada árbol elige uno al azar
 
 var worker: Node3D = null ## aldeano que lo tiene reservado
+
+
+## Para que el bosque no parezca copiado y pegado: modelo y giro al azar.
+func _ready() -> void:
+	var model_holder: Node3D = $Model
+	if not models.is_empty():
+		for child in model_holder.get_children():
+			child.free()
+		model_holder.add_child(models.pick_random().instantiate())
+	model_holder.rotation.y = randf() * TAU
 
 
 func is_free() -> bool:

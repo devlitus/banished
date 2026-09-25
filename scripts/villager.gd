@@ -117,6 +117,12 @@ func _physics_process(delta: float) -> void:
 	load_mesh.visible = carried > 0
 
 
+func _current_animation() -> String:
+	if state in [State.CHOPPING, State.WORKING]:
+		return "interact-right"
+	return super()
+
+
 ## Decide qué hacer ahora: descargar, buscar trabajo o ir a trabajar.
 func _choose_task() -> void:
 	if carried > 0: # p. ej. amaneció y aún llevaba algo encima

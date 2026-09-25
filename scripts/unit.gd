@@ -3,24 +3,65 @@ extends CharacterBody3D
 ## Base común de aldeanos y zombies: vida, daño y movimiento con navegación.
 ## Villager y Zombie "heredan" de Unit (extends Unit), así que tienen todo esto
 ## sin repetirlo. Cada escena que use este script necesita un nodo hijo "Body"
-## (MeshInstance3D) y otro "NavigationAgent3D".
+## (Node3D con el modelo 3D dentro) y otro "NavigationAgent3D".
 
 signal died
+
+const LOOPED_ANIMATIONS := ["idle", "walk", "interact-right", "attack-melee-right"]
 
 @export var speed := 3.0
 @export var max_health := 30
 @export var radius := 0.3 ## tamaño en el suelo; los zombies lo usan para saber si llegan a golpear
+@export var models: Array[PackedScene] = [] ## si hay varios, cada unidad elige uno al azar
+@export var tint := Color.WHITE ## color que se mezcla con el del modelo (verde para zombies)
 
 @onready var agent: NavigationAgent3D = $NavigationAgent3D
-@onready var body_mesh: MeshInstance3D = $Body
+@onready var body: Node3D = $Body
 
 var health := 0
-var hit_material := StandardMaterial3D.new() ## color al recibir un golpe
+var hit_material := StandardMaterial3D.new() ## capa roja al recibir un golpe
+var meshes: Array[MeshInstance3D] = []
+var anim: AnimationPlayer = null ## el del modelo (null si no tiene animaciones)
 
 
 func _ready() -> void:
 	health = max_health
-	hit_material.albedo_color = Color(1, 0.15, 0.15)
+	hit_material.albedo_color = Color(1, 0.15, 0.15, 0.6)
+	hit_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	hit_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	_setup_model()
+
+
+func _process(_delta: float) -> void:
+	if anim:
+		var animation_name := _current_animation()
+		if anim.current_animation != animation_name:
+			anim.play(animation_name, 0.2) # 0.2 s de mezcla entre animaciones
+
+
+## Qué animación toca ahora. Villager y Zombie la cambian para trabajar o atacar.
+func _current_animation() -> String:
+	return "walk" if velocity.length() > 0.1 else "idle"
+
+
+## Cambia el modelo por uno al azar de "models", lo tiñe y busca sus animaciones.
+func _setup_model() -> void:
+	if not models.is_empty():
+		for child in body.get_children():
+			child.free()
+		body.add_child(models.pick_random().instantiate())
+	for node in body.find_children("*", "MeshInstance3D", true, false):
+		meshes.append(node)
+		if tint != Color.WHITE:
+			for i in node.mesh.get_surface_count():
+				var material: BaseMaterial3D = node.mesh.surface_get_material(i).duplicate()
+				material.albedo_color *= tint
+				node.set_surface_override_material(i, material)
+	anim = body.find_child("AnimationPlayer", true, false)
+	if anim:
+		for animation_name in LOOPED_ANIMATIONS:
+			if anim.has_animation(animation_name):
+				anim.get_animation(animation_name).loop_mode = Animation.LOOP_LINEAR
 
 
 func take_damage(amount: int) -> void:
@@ -37,13 +78,19 @@ func die() -> void:
 	queue_free()
 
 
-## Se pone rojo un momento. El Tween pertenece a este nodo, así que si muere
-## antes de terminar, el Tween desaparece con él sin dar errores.
+## Se pone rojo un momento (una capa encima de su material, en todas sus mallas).
+## El Tween pertenece a este nodo, así que si muere antes de terminar,
+## el Tween desaparece con él sin dar errores.
 func _flash() -> void:
-	body_mesh.material_override = hit_material
+	_set_overlay(hit_material)
 	var tween := create_tween()
 	tween.tween_interval(0.15)
-	tween.tween_callback(func(): body_mesh.material_override = null)
+	tween.tween_callback(_set_overlay.bind(null))
+
+
+func _set_overlay(material: Material) -> void:
+	for mesh in meshes:
+		mesh.material_overlay = material
 
 
 ## Da un paso siguiendo la ruta del NavigationAgent3D. Devuelve true al llegar.

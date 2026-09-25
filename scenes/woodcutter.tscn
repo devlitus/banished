@@ -1,20 +1,10 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/work_building.gd" id="1_script"]
-
-[sub_resource type="StandardMaterial3D" id="Mat0"]
-albedo_color = Color(0.4, 0.3, 0.2, 1)
-
-[sub_resource type="BoxMesh" id="Mesh0"]
-material = SubResource("Mat0")
-size = Vector3(1.6, 1, 1.6)
-
-[sub_resource type="StandardMaterial3D" id="Mat1"]
-albedo_color = Color(0.25, 0.42, 0.2, 1)
-
-[sub_resource type="PrismMesh" id="Mesh1"]
-material = SubResource("Mat1")
-size = Vector3(1.8, 0.7, 1.8)
+[ext_resource type="PackedScene" path="res://assets/models/kenney_survival-kit/structure-roof.glb" id="m0"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney_nature-kit/log_stackLarge.glb" id="m1"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney_nature-kit/stump_round.glb" id="m2"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney_survival-kit/tool-axe.glb" id="m3"]
 
 [sub_resource type="BoxShape3D" id="Shape"]
 size = Vector3(1.6, 1.7, 1.6)
@@ -26,13 +16,19 @@ label_height = 2.4
 display_name = "Leñador"
 resource_type = "wood"
 
-[node name="Hut" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-mesh = SubResource("Mesh0")
+[node name="Model" type="Node3D" parent="."]
 
-[node name="Roof" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
-mesh = SubResource("Mesh1")
+[node name="Shelter" parent="Model" instance=ExtResource("m0")]
+transform = Transform3D(2.6, 0, -0, 0, 2.6, 0, 0, 0, 2.6, 0, 0, -0.25)
+
+[node name="Logs" parent="Model" instance=ExtResource("m1")]
+transform = Transform3D(1.5, 0, -0, 0, 1.5, 0, 0, 0, 1.5, 0.5, 0.07, 0.35)
+
+[node name="Stump" parent="Model" instance=ExtResource("m2")]
+transform = Transform3D(1.5, 0, -0, 0, 1.5, 0, 0, 0, 1.5, -0.5, 0.07, 0.55)
+
+[node name="Axe" parent="Model" instance=ExtResource("m3")]
+transform = Transform3D(1.7321, 0, -1, 0, 2, 0, 1, 0, 1.7321, -0.5, 0.3, 0.55)
 
 [node name="Collision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)

@@ -1,18 +1,8 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/zombie.gd" id="1_zombie"]
-
-[sub_resource type="StandardMaterial3D" id="BodyMat"]
-albedo_color = Color(0.35, 0.55, 0.3, 1)
-
-[sub_resource type="CapsuleMesh" id="BodyMesh"]
-material = SubResource("BodyMat")
-radius = 0.3
-height = 1.3
-
-[sub_resource type="BoxMesh" id="ArmsMesh"]
-material = SubResource("BodyMat")
-size = Vector3(0.55, 0.12, 0.5)
+[ext_resource type="PackedScene" path="res://assets/models/kenney_mini-characters/character-male-e.glb" id="m0"]
+[ext_resource type="PackedScene" path="res://assets/models/kenney_mini-characters/character-male-c.glb" id="m1"]
 
 [sub_resource type="CapsuleShape3D" id="BodyShape"]
 radius = 0.3
@@ -21,15 +11,14 @@ height = 1.3
 [node name="Zombie" type="CharacterBody3D" groups=["zombies"]]
 collision_layer = 4
 script = ExtResource("1_zombie")
+models = Array[PackedScene]([ExtResource("m0"), ExtResource("m1")])
+tint = Color(0.55, 0.9, 0.45, 1)
 speed = 2.5
 
-[node name="Body" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
-mesh = SubResource("BodyMesh")
+[node name="Body" type="Node3D" parent="."]
+transform = Transform3D(-1.8, 0, 0, 0, 1.8, 0, 0, 0, -1.8, 0, 0, 0)
 
-[node name="Arms" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, -0.35)
-mesh = SubResource("ArmsMesh")
+[node name="Model" parent="Body" instance=ExtResource("m0")]
 
 [node name="Collision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)

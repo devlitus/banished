@@ -13,11 +13,13 @@ extends Unit
 var target: Node3D = null ## aldeano o refugio
 var attack_timer := 0.0
 var repath_timer := 0.0
+var attacking := false ## si en este frame está golpeando algo (para la animación)
 
 
 func _physics_process(delta: float) -> void:
 	attack_timer -= delta
 	repath_timer -= delta
+	attacking = false
 	if repath_timer <= 0:
 		repath_timer = repath_interval
 		_choose_target()
@@ -61,7 +63,12 @@ func _in_reach(node: Node3D) -> bool:
 	return offset.length() <= attack_range + radius + node.radius
 
 
+func _current_animation() -> String:
+	return "attack-melee-right" if attacking else super()
+
+
 func _attack(node: Node3D) -> void:
+	attacking = true
 	velocity = Vector3.ZERO
 	_face(node.global_position - global_position)
 	if attack_timer <= 0:
