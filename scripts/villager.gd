@@ -55,6 +55,7 @@ func _physics_process(delta: float) -> void:
 			chop_timer -= delta
 			if chop_timer <= 0:
 				carried = target.take_wood(carry_capacity)
+				target.worker = null # libera el árbol para otro aldeano
 				if carried > 0:
 					_go_to_nearest_storage()
 				else:
@@ -80,6 +81,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_night_started(_night: int) -> void:
+	_release_tree()
 	_go_to_nearest_shelter()
 
 
@@ -115,10 +117,17 @@ func _deliver_wood() -> void:
 
 
 func _go_to_nearest_tree() -> void:
-	target = _nearest_in_group("trees")
+	target = _nearest_in_group("trees", func(tree): return tree.is_free())
 	if target:
+		target.worker = self # lo reserva: los demás buscarán otro
 		agent.target_position = target.global_position
 		state = State.GOING_TO_TREE
+
+
+## Si iba a un árbol o lo estaba cortando, lo deja libre.
+func _release_tree() -> void:
+	if state in [State.GOING_TO_TREE, State.CHOPPING] and is_instance_valid(target):
+		target.worker = null
 
 
 func _go_to_nearest_storage() -> void:

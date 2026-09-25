@@ -1,7 +1,15 @@
 extends StaticBody3D
 ## Árbol: fuente de madera. Cuando se agota, desaparece.
+## Solo admite un leñador a la vez: el aldeano lo "reserva" guardándose en "worker".
 
 @export var wood := 20
+
+var worker: Node3D = null ## aldeano que lo tiene reservado
+
+
+func is_free() -> bool:
+	# Si el aldeano que lo reservó ha muerto, is_instance_valid da false.
+	return not is_instance_valid(worker)
 
 
 ## Quita hasta "amount" de madera y devuelve cuánta se ha llevado de verdad.
