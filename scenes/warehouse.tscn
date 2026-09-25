@@ -17,7 +17,7 @@ size = Vector3(2, 0.8, 2)
 [sub_resource type="BoxShape3D" id="WarehouseShape"]
 size = Vector3(1.8, 2.2, 1.8)
 
-[node name="Warehouse" type="StaticBody3D" groups=["obstacles", "storage"]]
+[node name="Warehouse" type="StaticBody3D" groups=["obstacles", "storage", "shelter"]]
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)

@@ -1,27 +1,36 @@
-extends CharacterBody3D
+extends Unit
 ## Aldeano leñador: va al árbol más cercano, corta madera y la lleva al almacén.
 ## Es una "máquina de estados": en cada momento está en un solo estado y pasa
 ## a otro cuando termina lo que estaba haciendo.
 ##   IDLE → GOING_TO_TREE → CHOPPING → GOING_TO_STORAGE → IDLE → ...
+## De noche deja lo que esté haciendo y se refugia (grupo "shelter"):
+##   ... → GOING_TO_SHELTER → SHELTERED → (amanece) → IDLE
+## La vida, el daño y el movimiento vienen de Unit (unit.gd).
 
-enum State { IDLE, GOING_TO_TREE, CHOPPING, GOING_TO_STORAGE }
+enum State { IDLE, GOING_TO_TREE, CHOPPING, GOING_TO_STORAGE, GOING_TO_SHELTER, SHELTERED }
 
-@export var speed := 3.0
 @export var chop_time := 2.0 ## segundos que tarda en cortar
 @export var carry_capacity := 5 ## madera que lleva por viaje
 
-@onready var agent: NavigationAgent3D = $NavigationAgent3D
 @onready var load_mesh: Node3D = $Load ## el "tronco" que lleva en brazos
 
 var state := State.IDLE
-var target: Node3D = null ## árbol o almacén al que va
+var target: Node3D = null ## árbol, almacén o refugio al que va
 var carried := 0
 var chop_timer := 0.0
 var nav: Node = null
 
+## Propiedad calculada: se lee como una variable, pero su valor sale de "state".
+var is_sheltered: bool:
+	get:
+		return state == State.SHELTERED
+
 
 func _ready() -> void:
+	super() # ejecuta también el _ready() de Unit
 	nav = get_tree().get_first_node_in_group("navigation")
+	GameState.night_started.connect(_on_night_started)
+	GameState.day_started.connect(_on_day_started)
 
 
 func _physics_process(delta: float) -> void:
@@ -55,11 +64,54 @@ func _physics_process(delta: float) -> void:
 			if not is_instance_valid(target): # ¿no hay almacén? seguimos buscando
 				_go_to_nearest_storage()
 			elif _move_along_path():
-				GameState.add_resource("wood", carried)
-				carried = 0
+				_deliver_wood()
 				state = State.IDLE
 
+		State.GOING_TO_SHELTER:
+			if not is_instance_valid(target):
+				_go_to_nearest_shelter()
+			elif _move_along_path():
+				_hide()
+
+		State.SHELTERED:
+			pass # esperando dentro a que amanezca
+
 	load_mesh.visible = carried > 0
+
+
+func _on_night_started(_night: int) -> void:
+	_go_to_nearest_shelter()
+
+
+func _on_day_started(_day: int) -> void:
+	if state == State.SHELTERED:
+		# Sale del refugio: vuelve a verse, a chocar y a ser una presa.
+		visible = true
+		collision_layer = 2
+	state = State.IDLE # si no llegó a refugiarse, vuelve al trabajo igualmente
+
+
+func _go_to_nearest_shelter() -> void:
+	state = State.GOING_TO_SHELTER
+	target = _nearest_in_group("shelter")
+	if target:
+		agent.target_position = target.global_position
+
+
+## "Entra" en el refugio: se oculta y deja de chocar con nada.
+## Los zombies lo ignoran porque is_sheltered pasa a ser true.
+func _hide() -> void:
+	if target.is_in_group("storage"):
+		_deliver_wood()
+	state = State.SHELTERED
+	visible = false
+	collision_layer = 0
+
+
+func _deliver_wood() -> void:
+	if carried > 0:
+		GameState.add_resource("wood", carried)
+		carried = 0
 
 
 func _go_to_nearest_tree() -> void:
@@ -74,30 +126,3 @@ func _go_to_nearest_storage() -> void:
 	target = _nearest_in_group("storage")
 	if target:
 		agent.target_position = target.global_position
-
-
-func _nearest_in_group(group: String) -> Node3D:
-	var best: Node3D = null
-	var best_distance := INF
-	for node: Node3D in get_tree().get_nodes_in_group(group):
-		var d := global_position.distance_squared_to(node.global_position)
-		if d < best_distance:
-			best = node
-			best_distance = d
-	return best
-
-
-## Da un paso siguiendo la ruta del NavigationAgent3D. Devuelve true al llegar.
-## El destino (el centro del árbol o del almacén) está dentro de un obstáculo,
-## así que "llegar" significa alcanzar el punto caminable más cercano a él.
-func _move_along_path() -> bool:
-	if agent.is_navigation_finished():
-		velocity = Vector3.ZERO
-		return true
-	var direction := agent.get_next_path_position() - global_position
-	direction.y = 0
-	velocity = direction.normalized() * speed
-	move_and_slide()
-	if direction.length() > 0.01:
-		look_at(global_position + direction) # mira hacia donde camina
-	return false
