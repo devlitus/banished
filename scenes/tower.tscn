@@ -20,7 +20,7 @@ size = Vector3(1.8, 0.3, 1.8)
 [sub_resource type="BoxShape3D" id="TowerShape"]
 size = Vector3(1.6, 3.3, 1.6)
 
-[node name="Tower" type="StaticBody3D" groups=["buildings"]]
+[node name="Tower" type="StaticBody3D"]
 script = ExtResource("1_tower")
 projectile_scene = ExtResource("2_projectile")
 max_health = 150

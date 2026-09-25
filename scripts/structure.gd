@@ -23,6 +23,7 @@ func _ready() -> void:
 	health_label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	health_label.no_depth_test = true
 	health_label.font_size = 48
+	health_label.pixel_size = 0.01 # tamaño en el mundo de cada píxel del texto
 	health_label.outline_size = 12
 	health_label.position.y = label_height
 	health_label.visible = false

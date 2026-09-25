@@ -2,7 +2,7 @@ extends StaticBody3D
 ## Árbol: fuente de madera. Cuando se agota, desaparece.
 ## Solo admite un leñador a la vez: el aldeano lo "reserva" guardándose en "worker".
 
-@export var wood := 20
+@export var wood := 30
 @export var radius := 0.3 ## tamaño en el suelo (el del tronco)
 
 var worker: Node3D = null ## aldeano que lo tiene reservado

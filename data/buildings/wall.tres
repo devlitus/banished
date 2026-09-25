@@ -8,5 +8,5 @@ script = ExtResource("1_type")
 display_name = "Muro"
 scene = ExtResource("2_scene")
 cost = {
-"wood": 5
+"stone": 3
 }

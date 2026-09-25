@@ -12,7 +12,7 @@ size = Vector3(1.9, 1.5, 1.9)
 [sub_resource type="BoxShape3D" id="WallShape"]
 size = Vector3(1.9, 1.5, 1.9)
 
-[node name="Wall" type="StaticBody3D" groups=["buildings"]]
+[node name="Wall" type="StaticBody3D"]
 script = ExtResource("1_structure")
 max_health = 100
 label_height = 2.2

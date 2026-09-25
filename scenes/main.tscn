@@ -4,6 +4,15 @@
 [ext_resource type="Script" path="res://scripts/building_placer.gd" id="2_placer"]
 [ext_resource type="Resource" path="res://data/buildings/wall.tres" id="3_wall"]
 [ext_resource type="Resource" path="res://data/buildings/tower.tres" id="13_tower"]
+[ext_resource type="Resource" path="res://data/buildings/house.tres" id="15_house"]
+[ext_resource type="Resource" path="res://data/buildings/warehouse.tres" id="16_warehouse"]
+[ext_resource type="Resource" path="res://data/buildings/woodcutter.tres" id="17_woodcutter"]
+[ext_resource type="Resource" path="res://data/buildings/quarry.tres" id="18_quarry"]
+[ext_resource type="Resource" path="res://data/buildings/farm.tres" id="19_farm"]
+[ext_resource type="PackedScene" path="res://scenes/woodcutter.tscn" id="20_woodcutter_scene"]
+[ext_resource type="Script" path="res://scripts/colony.gd" id="21_colony"]
+[ext_resource type="Script" path="res://scripts/game_over.gd" id="22_game_over"]
+[ext_resource type="Script" path="res://scripts/message_label.gd" id="23_message"]
 [ext_resource type="Script" path="res://scripts/build_menu.gd" id="14_menu"]
 [ext_resource type="Script" path="res://scripts/navigation.gd" id="4_nav"]
 [ext_resource type="PackedScene" path="res://scenes/tree.tscn" id="5_tree"]
@@ -66,49 +75,142 @@ shape = SubResource("GroundShape")
 [node name="Warehouse" parent="NavigationRegion3D" instance=ExtResource("6_warehouse")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
 
+[node name="Woodcutter" parent="NavigationRegion3D" instance=ExtResource("20_woodcutter_scene")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -3)
+
 [node name="Trees" type="Node3D" parent="NavigationRegion3D"]
 
 [node name="Tree1" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, -7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 0, -15)
 
 [node name="Tree2" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 0, -7)
 
 [node name="Tree3" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, -9)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, -9)
 
 [node name="Tree4" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -11)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, -5)
 
 [node name="Tree5" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, -5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, -11)
 
 [node name="Tree6" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, -13)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 13)
 
 [node name="Tree7" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, -11)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, -11)
 
 [node name="Tree8" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 9)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, -9)
 
 [node name="Tree9" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 13)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 9)
 
 [node name="Tree10" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 11)
 
 [node name="Tree11" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 11)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 15)
 
 [node name="Tree12" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -9)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 17)
 
 [node name="Tree13" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -15)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -15)
 
 [node name="Tree14" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, -7)
+
+[node name="Tree15" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 11)
+
+[node name="Tree16" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 13)
+
+[node name="Tree17" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 15)
+
+[node name="Tree18" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -7)
+
+[node name="Tree19" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 19)
+
+[node name="Tree20" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 13)
+
+[node name="Tree21" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 17)
+
+[node name="Tree22" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 19)
+
+[node name="Tree23" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 15)
+
+[node name="Tree24" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -17)
+
+[node name="Tree25" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -11)
+
+[node name="Tree26" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -11)
+
+[node name="Tree27" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -13)
+
+[node name="Tree28" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -17)
+
+[node name="Tree29" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -13)
+
+[node name="Tree30" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -9)
+
+[node name="Tree31" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, -13)
+
+[node name="Tree32" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 9)
+
+[node name="Tree33" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, -13)
+
+[node name="Tree34" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, -11)
+
+[node name="Tree35" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, -13)
+
+[node name="Tree36" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, -11)
+
+[node name="Tree37" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, 3)
+
+[node name="Tree38" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, -11)
+
+[node name="Tree39" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 1)
+
+[node name="Tree40" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 3)
+
+[node name="Tree41" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 5)
+
+[node name="Tree42" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 9)
+
+[node name="Tree43" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, 9)
+
+[node name="Tree44" parent="NavigationRegion3D/Trees" instance=ExtResource("5_tree")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 0, 7)
 
 [node name="Buildings" type="Node3D" parent="NavigationRegion3D"]
 
@@ -129,13 +231,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2)
 [node name="Villager5" parent="Villagers" instance=ExtResource("7_villager")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
 
+[node name="Colony" type="Node" parent="." node_paths=PackedStringArray("villagers_parent", "game_over") groups=["colony"]]
+script = ExtResource("21_colony")
+villager_scene = ExtResource("7_villager")
+villagers_parent = NodePath("../Villagers")
+game_over = NodePath("../HUD/GameOver")
+
 [node name="ZombieSpawner" type="Node3D" parent="."]
 script = ExtResource("10_spawner")
 zombie_scene = ExtResource("11_zombie")
 
 [node name="BuildingPlacer" type="Node3D" parent="." node_paths=PackedStringArray("buildings_parent")]
 script = ExtResource("2_placer")
-building_types = [ExtResource("3_wall"), ExtResource("13_tower")]
+building_types = [ExtResource("15_house"), ExtResource("16_warehouse"), ExtResource("17_woodcutter"), ExtResource("18_quarry"), ExtResource("19_farm"), ExtResource("3_wall"), ExtResource("13_tower")]
 buildings_parent = NodePath("../NavigationRegion3D/Buildings")
 
 [node name="Ghost" type="MeshInstance3D" parent="BuildingPlacer"]
@@ -158,7 +266,7 @@ far = 200.0
 offset_left = 12.0
 offset_top = 8.0
 text = "WASD/flechas: mover · Q/E: girar · rueda: zoom · N: saltar a día/noche
-1/2 o botones: elegir edificio · Clic izq.: construir · Clic der.: demoler"
+1-7 o botones: elegir edificio · Clic izq.: construir · Clic der.: demoler"
 
 [node name="Resources" type="Label" parent="HUD"]
 offset_left = 12.0
@@ -166,11 +274,12 @@ offset_top = 60.0
 theme_override_font_sizes/font_size = 20
 script = ExtResource("8_resources")
 
-[node name="Status" type="Label" parent="HUD"]
+[node name="Status" type="Label" parent="HUD" node_paths=PackedStringArray("colony")]
 offset_left = 12.0
 offset_top = 90.0
 theme_override_font_sizes/font_size = 20
 script = ExtResource("12_status")
+colony = NodePath("../../Colony")
 
 [node name="BuildMenu" type="HBoxContainer" parent="HUD" node_paths=PackedStringArray("placer")]
 anchors_preset = 7
@@ -185,3 +294,40 @@ grow_vertical = 0
 theme_override_constants/separation = 8
 script = ExtResource("14_menu")
 placer = NodePath("../../BuildingPlacer")
+
+[node name="Message" type="Label" parent="HUD"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 150.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+theme_override_constants/outline_size = 8
+horizontal_alignment = 1
+script = ExtResource("23_message")
+
+[node name="GameOver" type="PanelContainer" parent="HUD"]
+process_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("22_game_over")
+
+[node name="Box" type="VBoxContainer" parent="HUD/GameOver"]
+custom_minimum_size = Vector2(420, 0)
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="HUD/GameOver/Box"]
+theme_override_font_sizes/font_size = 40
+horizontal_alignment = 1
+
+[node name="Details" type="Label" parent="HUD/GameOver/Box"]
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Restart" type="Button" parent="HUD/GameOver/Box"]
+text = "Jugar otra vez"

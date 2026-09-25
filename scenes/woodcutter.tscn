@@ -1,0 +1,39 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/work_building.gd" id="1_script"]
+
+[sub_resource type="StandardMaterial3D" id="Mat0"]
+albedo_color = Color(0.4, 0.3, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="Mesh0"]
+material = SubResource("Mat0")
+size = Vector3(1.6, 1, 1.6)
+
+[sub_resource type="StandardMaterial3D" id="Mat1"]
+albedo_color = Color(0.25, 0.42, 0.2, 1)
+
+[sub_resource type="PrismMesh" id="Mesh1"]
+material = SubResource("Mat1")
+size = Vector3(1.8, 0.7, 1.8)
+
+[sub_resource type="BoxShape3D" id="Shape"]
+size = Vector3(1.6, 1.7, 1.6)
+
+[node name="Woodcutter" type="StaticBody3D"]
+script = ExtResource("1_script")
+max_health = 120
+label_height = 2.4
+display_name = "Leñador"
+resource_type = "wood"
+
+[node name="Hut" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("Mesh0")
+
+[node name="Roof" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+mesh = SubResource("Mesh1")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+shape = SubResource("Shape")

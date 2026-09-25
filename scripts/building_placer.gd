@@ -3,7 +3,8 @@ extends Node3D
 ## Un cubo semitransparente ("fantasma") sigue al ratón: verde = se puede, rojo = no
 ## (celda ocupada, hay alguien encima o no te llega el dinero).
 ## Clic izquierdo = construir el tipo seleccionado, clic derecho = demoler (devuelve la mitad).
-## Los nodos del grupo "obstacles" (árboles, almacén) también ocupan su celda.
+## Lo que ya viene en el mapa (árboles, estructuras) también ocupa su celda,
+## pero solo se puede demoler lo construido por el jugador (grupo "buildings").
 
 const CELL_SIZE := 2.0
 
@@ -23,8 +24,9 @@ func _ready() -> void:
 	ghost_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	ghost_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	ghost.material_override = ghost_material
-	for obstacle: Node3D in get_tree().get_nodes_in_group("obstacles"):
-		occupied[world_to_cell(obstacle.global_position)] = obstacle
+	for group in ["obstacles", "structures"]:
+		for node: Node3D in get_tree().get_nodes_in_group(group):
+			occupied[world_to_cell(node.global_position)] = node
 	if not building_types.is_empty():
 		selected = building_types[0]
 
@@ -62,6 +64,7 @@ func _place(cell: Vector2i) -> void:
 	GameState.spend(selected.cost)
 	var building: Structure = selected.scene.instantiate()
 	building.building_type = selected
+	building.add_to_group("buildings") # construido por el jugador: se puede demoler
 	building.position = cell_to_world(cell)
 	buildings_parent.add_child(building)
 	occupied[cell] = building
@@ -72,7 +75,7 @@ func _remove(cell: Vector2i) -> void:
 	if _is_free(cell):
 		return
 	var building: Node3D = occupied[cell]
-	if not building.is_in_group("buildings"): # árboles y almacén no se demuelen
+	if not building.is_in_group("buildings"): # lo que venía en el mapa no se demuele
 		return
 	for type: String in building.building_type.cost: # devuelve la mitad
 		GameState.add_resource(type, floori(building.building_type.cost[type] / 2.0))

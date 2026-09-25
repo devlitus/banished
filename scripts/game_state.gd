@@ -7,14 +7,26 @@ extends Node
 signal resources_changed
 signal night_started(night: int)
 signal day_started(day: int)
+signal message(text: String) ## avisos para el jugador ("Ha nacido un aldeano"...)
+
+const START_RESOURCES := {"wood": 40, "stone": 20, "food": 30}
+const NIGHTS_TO_WIN := 10
 
 @export var day_length := 90.0 ## segundos
 @export var night_length := 45.0
 
-var resources := {"wood": 0, "stone": 0, "food": 0}
+var resources := START_RESOURCES.duplicate()
 var day := 1 ## la noche N es la que sigue al día N
 var is_night := false
 var time_left := day_length
+
+
+## Deja todo como al principio (para "Jugar otra vez").
+func reset() -> void:
+	resources = START_RESOURCES.duplicate()
+	day = 1
+	is_night = false
+	time_left = day_length
 
 
 func _process(delta: float) -> void:
@@ -29,6 +41,7 @@ func _process(delta: float) -> void:
 	else:
 		is_night = true
 		time_left = night_length
+		message.emit("¡Cae la noche %d! Los aldeanos corren a refugiarse" % day)
 		night_started.emit(day)
 
 
