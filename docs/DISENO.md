@@ -41,6 +41,7 @@ Historia, árbol tecnológico, estaciones, misiones, multijugador, guardado de p
 5. Bucle completo con cubos grises (prototipo gris jugable).
 6. Sustituir cubos por assets low-poly.
 7. Publicar en la web (itch.io).
+8. Decisiones y tensión: aviso de horda, curva de dificultad y mejoras al amanecer.
 
 ## Hito 7: publicar en la web (itch.io)
 Objetivo: que cualquiera pueda jugar desde el navegador en una página de itch.io.
@@ -74,3 +75,53 @@ Coste: 0 € (juego gratuito; itch.io no cobra por publicar ni alojar).
 ### Hecho cuando
 El juego se puede jugar entero (de la noche 1 a la victoria o la derrota)
 desde el enlace de itch.io, en Chrome y Firefox.
+
+## Hito 8: decisiones y tensión
+Objetivo: que el jugador **tome decisiones** y sienta que cada noche es un reto que
+puede preparar. Tres piezas, en este orden:
+
+### 8.1 Aviso de horda (estrategia)
+- Al amanecer se decide cómo será la noche siguiente: **cuántos zombies y por qué lado(s)**
+  (norte, sur, este, oeste).
+- Se anuncia durante todo el día en el HUD: *"Esta noche: 6 zombies desde el NORTE"*.
+- En el borde del mapa, en cada lado de ataque, aparece un **marcador rojo** que late.
+- A falta de 15 s para anochecer: aviso *"¡La horda llega en 15 s!"*.
+- Los zombies aparecen **solo por los lados anunciados** (en una franja, no por todo el borde).
+- Así importa **dónde** construir muros y torres.
+
+### 8.2 Curva de dificultad (equilibrio)
+- Tabla fija de oleadas (en vez de la fórmula base + extra por noche):
+
+  | Noche | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+  |---|---|---|---|---|---|---|---|---|---|---|
+  | Zombies | 2 | 3 | 5 | 6 | 8 | 10 | 12 | 14 | 17 | 20 |
+  | Lados | 1 | 1 | 1 | 1 | 2 | 2 | 2 | 2 | 3 | 3 |
+
+- La noche 1 se puede sobrevivir sin construir nada (enseña cómo funciona la noche);
+  a partir de la 3 hacen falta torres; a partir de la 5, defender dos frentes.
+- Los zombies hacen **menos daño a edificios** que a aldeanos, y el almacén aguanta más:
+  refugiarse debe ser útil, no una trampa.
+
+### 8.3 Mejora al amanecer (progreso y "una noche más")
+- Tras sobrevivir una noche, el juego se pausa y ofrece **3 cartas al azar**; eliges 1.
+- Cartas (efecto permanente durante la partida):
+
+  | Carta | Efecto |
+  |---|---|
+  | Arqueros expertos | Torres +30 % de daño |
+  | Vigías | Torres +2 de alcance |
+  | Muros reforzados | Muros, torres y edificios +50 % de vida |
+  | Brazos fuertes | Aldeanos +2 de carga por viaje |
+  | Buena cosecha | Granjas +50 % de comida |
+  | Racionamiento | Cada aldeano come 1 en vez de 2 |
+  | Pies ligeros | Aldeanos +25 % de velocidad |
+  | Carromato de suministros | +40 madera y +25 piedra al momento |
+
+- Las cartas que ya no aportan nada (p. ej. Racionamiento ya elegida) no vuelven a salir.
+
+### Hecho cuando
+- Durante el día siempre sabes qué viene esa noche y por dónde.
+- Un jugador nuevo sobrevive la noche 1 sin saber nada; la noche 5 exige haber
+  defendido los lados anunciados.
+- Cada amanecer eliges una mejora y se nota en la partida.
+- Exportado de nuevo a itch.io.

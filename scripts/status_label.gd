@@ -3,6 +3,7 @@ extends Label
 ## Cambia en cada frame (el tiempo corre), así que aquí sí usamos _process.
 
 @export var colony: Node
+@export var spawner: Node
 
 
 func _process(_delta: float) -> void:
@@ -13,3 +14,7 @@ func _process(_delta: float) -> void:
 	text = "%s %d · quedan %d s · noches superadas: %d/%d\nAldeanos: %d/%d · sin trabajo: %d" % [
 		phase, GameState.day, ceili(GameState.time_left), survived, GameState.NIGHTS_TO_WIN,
 		villagers.size(), colony.housing_capacity(), jobless]
+	if GameState.is_night:
+		text += "\nZombies: %d" % get_tree().get_nodes_in_group("zombies").size()
+	else:
+		text += "\nEsta noche: %d zombies desde el %s" % [spawner.next_count, spawner.sides_text()]
