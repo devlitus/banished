@@ -28,6 +28,13 @@ func _ready() -> void:
 	health_label.position.y = label_height
 	health_label.visible = false
 	add_child(health_label)
+	GameState.day_started.connect(_repair)
+
+
+## Al amanecer los aldeanos lo reparan: cada noche empieza con todo entero.
+func _repair(_day: int) -> void:
+	health = max_health
+	health_label.visible = false
 
 
 func take_damage(amount: int) -> void:

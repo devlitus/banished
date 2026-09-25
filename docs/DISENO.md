@@ -101,6 +101,8 @@ puede preparar. Tres piezas, en este orden:
   a partir de la 3 hacen falta torres; a partir de la 5, defender dos frentes.
 - Los zombies hacen **menos daño a edificios** que a aldeanos, y el almacén aguanta más:
   refugiarse debe ser útil, no una trampa.
+  - Zombies: 10 de daño a aldeanos, 4 a edificios. Almacén: 400 de vida.
+- **Al amanecer se reparan todos los edificios**: cada noche empieza con todo entero.
 
 ### 8.3 Mejora al amanecer (progreso y "una noche más")
 - Tras sobrevivir una noche, el juego se pausa y ofrece **3 cartas al azar**; eliges 1.

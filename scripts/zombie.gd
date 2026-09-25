@@ -5,7 +5,8 @@ extends Unit
 ## Como los aldeanos se mueven, recalcula la ruta cada "repath_interval" segundos
 ## (recalcularla en cada frame sería caro con muchos zombies).
 
-@export var damage := 10
+@export var damage := 10 ## por golpe a un aldeano
+@export var structure_damage := 4 ## por golpe a un edificio: refugiarse tiene que servir de algo
 @export var attack_range := 0.8 ## distancia de golpe, medida desde el borde del objetivo
 @export var attack_cooldown := 1.0 ## segundos entre golpes
 @export var repath_interval := 0.5
@@ -73,4 +74,4 @@ func _attack(node: Node3D) -> void:
 	_face(node.global_position - global_position)
 	if attack_timer <= 0:
 		attack_timer = attack_cooldown
-		node.take_damage(damage)
+		node.take_damage(structure_damage if node is Structure else damage)
