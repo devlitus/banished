@@ -9,6 +9,7 @@ signal died
 
 @export var speed := 3.0
 @export var max_health := 30
+@export var radius := 0.3 ## tamaño en el suelo; los zombies lo usan para saber si llegan a golpear
 
 @onready var agent: NavigationAgent3D = $NavigationAgent3D
 @onready var body_mesh: MeshInstance3D = $Body

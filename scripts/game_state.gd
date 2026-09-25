@@ -41,3 +41,17 @@ func _unhandled_input(event: InputEvent) -> void:
 func add_resource(type: String, amount: int) -> void:
 	resources[type] += amount
 	resources_changed.emit()
+
+
+## cost es un diccionario tipo {"wood": 5, "stone": 2}.
+func can_afford(cost: Dictionary) -> bool:
+	for type: String in cost:
+		if resources[type] < cost[type]:
+			return false
+	return true
+
+
+func spend(cost: Dictionary) -> void:
+	for type: String in cost:
+		resources[type] -= cost[type]
+	resources_changed.emit()

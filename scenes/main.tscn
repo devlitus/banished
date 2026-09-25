@@ -2,7 +2,9 @@
 
 [ext_resource type="Script" path="res://scripts/camera_rig.gd" id="1_cam"]
 [ext_resource type="Script" path="res://scripts/building_placer.gd" id="2_placer"]
-[ext_resource type="PackedScene" path="res://scenes/building.tscn" id="3_building"]
+[ext_resource type="Resource" path="res://data/buildings/wall.tres" id="3_wall"]
+[ext_resource type="Resource" path="res://data/buildings/tower.tres" id="13_tower"]
+[ext_resource type="Script" path="res://scripts/build_menu.gd" id="14_menu"]
 [ext_resource type="Script" path="res://scripts/navigation.gd" id="4_nav"]
 [ext_resource type="PackedScene" path="res://scenes/tree.tscn" id="5_tree"]
 [ext_resource type="PackedScene" path="res://scenes/warehouse.tscn" id="6_warehouse"]
@@ -133,7 +135,7 @@ zombie_scene = ExtResource("11_zombie")
 
 [node name="BuildingPlacer" type="Node3D" parent="." node_paths=PackedStringArray("buildings_parent")]
 script = ExtResource("2_placer")
-building_scene = ExtResource("3_building")
+building_types = [ExtResource("3_wall"), ExtResource("13_tower")]
 buildings_parent = NodePath("../NavigationRegion3D/Buildings")
 
 [node name="Ghost" type="MeshInstance3D" parent="BuildingPlacer"]
@@ -155,8 +157,8 @@ far = 200.0
 [node name="Help" type="Label" parent="HUD"]
 offset_left = 12.0
 offset_top = 8.0
-text = "WASD/flechas: mover · Q/E: girar · rueda: zoom
-Clic izq.: construir · Clic der.: demoler · N: saltar a día/noche"
+text = "WASD/flechas: mover · Q/E: girar · rueda: zoom · N: saltar a día/noche
+1/2 o botones: elegir edificio · Clic izq.: construir · Clic der.: demoler"
 
 [node name="Resources" type="Label" parent="HUD"]
 offset_left = 12.0
@@ -169,3 +171,17 @@ offset_left = 12.0
 offset_top = 90.0
 theme_override_font_sizes/font_size = 20
 script = ExtResource("12_status")
+
+[node name="BuildMenu" type="HBoxContainer" parent="HUD" node_paths=PackedStringArray("placer")]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -64.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 8
+script = ExtResource("14_menu")
+placer = NodePath("../../BuildingPlacer")

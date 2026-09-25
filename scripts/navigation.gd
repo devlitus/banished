@@ -4,6 +4,9 @@ extends NavigationRegion3D
 ## el suelo suma zona caminable y los árboles y edificios hacen agujeros.
 ## Cualquier script puede pedir que se recalcule con:
 ##     get_tree().call_group("navigation", "rebake")
+## y enterarse de que ha terminado con la señal "rebaked".
+
+signal rebaked
 
 var is_ready := false ## false hasta que termina el primer cálculo
 var _pending := false ## alguien pidió recalcular mientras ya se estaba calculando
@@ -29,3 +32,4 @@ func _on_bake_finished() -> void:
 	# El servidor de navegación aplica la malla nueva en el siguiente frame de física.
 	await get_tree().physics_frame
 	is_ready = true
+	rebaked.emit()

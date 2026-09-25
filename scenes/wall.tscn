@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/structure.gd" id="1_structure"]
+
+[sub_resource type="StandardMaterial3D" id="WallMat"]
+albedo_color = Color(0.55, 0.55, 0.58, 1)
+
+[sub_resource type="BoxMesh" id="WallMesh"]
+material = SubResource("WallMat")
+size = Vector3(1.9, 1.5, 1.9)
+
+[sub_resource type="BoxShape3D" id="WallShape"]
+size = Vector3(1.9, 1.5, 1.9)
+
+[node name="Wall" type="StaticBody3D" groups=["buildings"]]
+script = ExtResource("1_structure")
+max_health = 100
+label_height = 2.2
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+mesh = SubResource("WallMesh")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+shape = SubResource("WallShape")
