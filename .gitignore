@@ -4,3 +4,6 @@
 
 # Ejecutables de Godot (no subir al repositorio)
 *.exe
+
+# Exportaciones
+/build/
