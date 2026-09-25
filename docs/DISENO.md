@@ -41,7 +41,7 @@ Historia, árbol tecnológico, estaciones, misiones, multijugador, guardado de p
 5. Bucle completo con cubos grises (prototipo gris jugable).
 6. Sustituir cubos por assets low-poly.
 7. Publicar en la web (itch.io).
-8. Decisiones y tensión: aviso de horda, curva de dificultad y mejoras al amanecer.
+8. Decisiones y tensión: aviso de horda, curva de dificultad, guía y mejoras al amanecer.
 
 ## Hito 7: publicar en la web (itch.io)
 Objetivo: que cualquiera pueda jugar desde el navegador en una página de itch.io.
@@ -120,6 +120,12 @@ puede preparar. Tres piezas, en este orden:
   | Carromato de suministros | +40 madera y +25 piedra al momento |
 
 - Las cartas que ya no aportan nada (p. ej. Racionamiento ya elegida) no vuelven a salir.
+
+### 8.4 Guía de primeros pasos (hecha antes que 8.3)
+- Panel arriba a la derecha con **un consejo a la vez**, el primero que falta por cumplir:
+  1. Cantera (piedra) · 2. Granja (comida, hambre) · 3. Torre (defensa) ·
+  4. Casa (nacimientos) · 5. Muros en el lado de la franja roja.
+- Cada paso se cumple al construir ese edificio; al completarlos, la guía desaparece.
 
 ### Hecho cuando
 - Durante el día siempre sabes qué viene esa noche y por dónde.

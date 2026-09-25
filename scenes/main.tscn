@@ -23,6 +23,7 @@
 [ext_resource type="Script" path="res://scripts/zombie_spawner.gd" id="10_spawner"]
 [ext_resource type="PackedScene" path="res://scenes/zombie.tscn" id="11_zombie"]
 [ext_resource type="Script" path="res://scripts/status_label.gd" id="12_status"]
+[ext_resource type="Script" path="res://scripts/guide.gd" id="24_guide"]
 
 [sub_resource type="Environment" id="Env"]
 background_mode = 1
@@ -281,6 +282,19 @@ theme_override_font_sizes/font_size = 20
 script = ExtResource("12_status")
 colony = NodePath("../../Colony")
 spawner = NodePath("../../ZombieSpawner")
+
+[node name="Guide" type="PanelContainer" parent="HUD"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -432.0
+offset_top = 12.0
+offset_right = -12.0
+grow_horizontal = 0
+script = ExtResource("24_guide")
+
+[node name="Label" type="Label" parent="HUD/Guide"]
+theme_override_font_sizes/font_size = 18
 
 [node name="BuildMenu" type="HBoxContainer" parent="HUD" node_paths=PackedStringArray("placer")]
 anchors_preset = 7
