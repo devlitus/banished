@@ -75,7 +75,7 @@ func _physics_process(delta: float) -> void:
 				return
 			work_timer -= delta
 			if work_timer <= 0:
-				var amount: int = target.take_wood(carry_capacity)
+				var amount: int = target.take_wood(carry_capacity + GameState.bonuses.carry)
 				target.worker = null # libera el árbol para otro aldeano
 				_pick_up("wood", amount)
 
@@ -92,7 +92,10 @@ func _physics_process(delta: float) -> void:
 				return
 			work_timer -= delta
 			if work_timer <= 0:
-				_pick_up(workplace.resource_type, workplace.amount_per_trip)
+				var amount: int = workplace.amount_per_trip + GameState.bonuses.carry
+				if workplace.resource_type == "food":
+					amount = roundi(amount * GameState.bonuses.farm)
+				_pick_up(workplace.resource_type, amount)
 
 		State.GOING_TO_STORAGE:
 			if not is_instance_valid(target): # ¿no hay almacén? seguimos buscando
@@ -115,6 +118,10 @@ func _physics_process(delta: float) -> void:
 				_go_to_nearest_shelter()
 
 	load_mesh.visible = carried > 0
+
+
+func _speed() -> float:
+	return speed * GameState.bonuses.villager_speed
 
 
 func _current_animation() -> String:

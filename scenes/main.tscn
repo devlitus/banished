@@ -24,6 +24,7 @@
 [ext_resource type="PackedScene" path="res://scenes/zombie.tscn" id="11_zombie"]
 [ext_resource type="Script" path="res://scripts/status_label.gd" id="12_status"]
 [ext_resource type="Script" path="res://scripts/guide.gd" id="24_guide"]
+[ext_resource type="Script" path="res://scripts/upgrade_choice.gd" id="25_upgrades"]
 
 [sub_resource type="Environment" id="Env"]
 background_mode = 1
@@ -320,6 +321,30 @@ theme_override_font_sizes/font_size = 24
 theme_override_constants/outline_size = 8
 horizontal_alignment = 1
 script = ExtResource("23_message")
+
+[node name="UpgradeChoice" type="PanelContainer" parent="HUD" node_paths=PackedStringArray("colony")]
+process_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("25_upgrades")
+colony = NodePath("../../Colony")
+
+[node name="Box" type="VBoxContainer" parent="HUD/UpgradeChoice"]
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="HUD/UpgradeChoice/Box"]
+theme_override_font_sizes/font_size = 28
+text = "¡Habéis sobrevivido a la noche! Elige una mejora"
+horizontal_alignment = 1
+
+[node name="Cards" type="HBoxContainer" parent="HUD/UpgradeChoice/Box"]
+theme_override_constants/separation = 12
+alignment = 1
 
 [node name="GameOver" type="PanelContainer" parent="HUD"]
 process_mode = 3

@@ -106,9 +106,14 @@ func _move_along_path() -> bool:
 func _walk_towards(point: Vector3) -> void:
 	var direction := point - global_position
 	direction.y = 0
-	velocity = direction.normalized() * speed
+	velocity = direction.normalized() * _speed()
 	move_and_slide()
 	_face(direction)
+
+
+## Velocidad actual. Villager la cambia con la mejora "Pies ligeros".
+func _speed() -> float:
+	return speed
 
 
 func _face(direction: Vector3) -> void:

@@ -10,12 +10,23 @@ signal day_started(day: int)
 signal message(text: String) ## avisos para el jugador ("Ha nacido un aldeano"...)
 
 const START_RESOURCES := {"wood": 40, "stone": 20, "food": 30}
+## Mejoras de las cartas del amanecer. Cada script las lee al usarlas.
+const START_BONUSES := {
+	"tower_damage": 1.0, ## multiplicador
+	"tower_range": 0.0, ## se suma
+	"structure_health": 1.0, ## multiplicador
+	"carry": 0, ## se suma a lo que llevan por viaje
+	"farm": 1.0, ## multiplicador de la comida de las granjas
+	"food_saved": 0, ## se resta a lo que come cada aldeano
+	"villager_speed": 1.0, ## multiplicador
+}
 const NIGHTS_TO_WIN := 10
 
 @export var day_length := 90.0 ## segundos
 @export var night_length := 45.0
 
 var resources := START_RESOURCES.duplicate()
+var bonuses := START_BONUSES.duplicate()
 var day := 1 ## la noche N es la que sigue al día N
 var is_night := false
 var time_left := day_length
@@ -24,6 +35,7 @@ var time_left := day_length
 ## Deja todo como al principio (para "Jugar otra vez").
 func reset() -> void:
 	resources = START_RESOURCES.duplicate()
+	bonuses = START_BONUSES.duplicate()
 	day = 1
 	is_night = false
 	time_left = day_length

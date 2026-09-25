@@ -22,7 +22,7 @@ func _physics_process(delta: float) -> void:
 
 func _nearest_zombie_in_range() -> Node3D:
 	var best: Node3D = null
-	var best_distance := shoot_range
+	var best_distance: float = shoot_range + GameState.bonuses.tower_range
 	for zombie: Node3D in get_tree().get_nodes_in_group("zombies"):
 		var d := global_position.distance_to(zombie.global_position)
 		if d <= best_distance:
@@ -34,7 +34,7 @@ func _nearest_zombie_in_range() -> Node3D:
 func _shoot(zombie: Node3D) -> void:
 	var projectile: Node3D = projectile_scene.instantiate()
 	projectile.target = zombie
-	projectile.damage = damage
+	projectile.damage = roundi(damage * GameState.bonuses.tower_damage)
 	add_child(projectile)
 	# top_level: la flecha se mueve en coordenadas del mundo, no relativas a la torre.
 	projectile.top_level = true

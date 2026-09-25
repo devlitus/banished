@@ -44,7 +44,7 @@ func _on_day_started(day: int) -> void:
 
 func _feed() -> void:
 	var villagers := get_tree().get_nodes_in_group("villagers")
-	var needed := villagers.size() * food_per_villager
+	var needed: int = villagers.size() * (food_per_villager - GameState.bonuses.food_saved)
 	var food: int = GameState.resources.food
 	if food >= needed:
 		GameState.spend({"food": needed})

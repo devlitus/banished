@@ -16,7 +16,7 @@ var health_label := Label3D.new()
 
 
 func _ready() -> void:
-	health = max_health
+	health = full_health()
 	add_to_group("structures")
 	# Etiqueta de vida creada por código: siempre mira a la cámara (billboard)
 	# y se dibuja por encima de todo (no_depth_test).
@@ -33,8 +33,13 @@ func _ready() -> void:
 
 ## Al amanecer los aldeanos lo reparan: cada noche empieza con todo entero.
 func _repair(_day: int) -> void:
-	health = max_health
+	health = full_health()
 	health_label.visible = false
+
+
+## Vida máxima con la mejora "Muros reforzados" aplicada.
+func full_health() -> int:
+	return roundi(max_health * GameState.bonuses.structure_health)
 
 
 func take_damage(amount: int) -> void:
@@ -42,8 +47,8 @@ func take_damage(amount: int) -> void:
 		return
 	health -= amount
 	health_label.visible = true
-	health_label.text = "%d/%d" % [maxi(health, 0), max_health]
-	var fraction := float(health) / max_health
+	health_label.text = "%d/%d" % [maxi(health, 0), full_health()]
+	var fraction := float(health) / full_health()
 	health_label.modulate = Color(1, 0.3, 0.3) if fraction < 0.35 else Color(1, 1, 1)
 	if health <= 0:
 		destroy()
