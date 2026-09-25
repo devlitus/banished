@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="BuildingMat"]
+albedo_color = Color(0.6, 0.6, 0.62, 1)
+
+[sub_resource type="BoxMesh" id="BuildingMesh"]
+material = SubResource("BuildingMat")
+size = Vector3(1.8, 2, 1.8)
+
+[sub_resource type="BoxShape3D" id="BuildingShape"]
+size = Vector3(1.8, 2, 1.8)
+
+[node name="Building" type="StaticBody3D" groups=["buildings"]]
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("BuildingMesh")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BuildingShape")

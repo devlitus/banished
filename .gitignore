@@ -1,0 +1,6 @@
+# Cache de Godot 4
+.godot/
+/android/
+
+# Ejecutables de Godot (no subir al repositorio)
+*.exe

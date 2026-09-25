@@ -1,0 +1,43 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/villager.gd" id="1_villager"]
+
+[sub_resource type="StandardMaterial3D" id="BodyMat"]
+albedo_color = Color(0.3, 0.45, 0.8, 1)
+
+[sub_resource type="CapsuleMesh" id="BodyMesh"]
+material = SubResource("BodyMat")
+radius = 0.3
+height = 1.2
+
+[sub_resource type="StandardMaterial3D" id="LoadMat"]
+albedo_color = Color(0.45, 0.3, 0.18, 1)
+
+[sub_resource type="BoxMesh" id="LoadMesh"]
+material = SubResource("LoadMat")
+size = Vector3(0.5, 0.2, 0.2)
+
+[sub_resource type="CapsuleShape3D" id="BodyShape"]
+radius = 0.3
+height = 1.2
+
+[node name="Villager" type="CharacterBody3D"]
+collision_layer = 2
+script = ExtResource("1_villager")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("BodyMesh")
+
+[node name="Load" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, -0.35)
+visible = false
+mesh = SubResource("LoadMesh")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+shape = SubResource("BodyShape")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 1.0
+target_desired_distance = 1.0

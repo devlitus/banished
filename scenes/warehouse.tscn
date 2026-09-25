@@ -1,0 +1,32 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="WarehouseMat"]
+albedo_color = Color(0.72, 0.52, 0.3, 1)
+
+[sub_resource type="BoxMesh" id="WarehouseMesh"]
+material = SubResource("WarehouseMat")
+size = Vector3(1.8, 1.4, 1.8)
+
+[sub_resource type="StandardMaterial3D" id="RoofMat"]
+albedo_color = Color(0.55, 0.25, 0.2, 1)
+
+[sub_resource type="PrismMesh" id="RoofMesh"]
+material = SubResource("RoofMat")
+size = Vector3(2, 0.8, 2)
+
+[sub_resource type="BoxShape3D" id="WarehouseShape"]
+size = Vector3(1.8, 2.2, 1.8)
+
+[node name="Warehouse" type="StaticBody3D" groups=["obstacles", "storage"]]
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+mesh = SubResource("WarehouseMesh")
+
+[node name="Roof" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+mesh = SubResource("RoofMesh")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+shape = SubResource("WarehouseShape")
